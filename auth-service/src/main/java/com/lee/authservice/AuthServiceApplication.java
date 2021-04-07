@@ -1,8 +1,10 @@
 package com.lee.authservice;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@MapperScan("com.lee.authservice.mapper")
 @SpringBootApplication
 public class AuthServiceApplication {
 
