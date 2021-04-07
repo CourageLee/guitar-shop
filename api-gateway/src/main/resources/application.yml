@@ -1,1 +1,22 @@
-
+# 登陆时转发到auth-service
+# 其他请求通过过滤器鉴定token是否有权限
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: auth_route
+          uri: http://localhost:8801
+          predicates:
+            - Path=/oauth/token
+        - id: user_route
+          uri: http://localhost:8811
+          predicates:
+            - Path=/user/**, /province/**, /address/**
+server:
+  port: 8080
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/, http://localhost:8762/eureka/
