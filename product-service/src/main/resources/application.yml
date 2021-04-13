@@ -3,7 +3,7 @@ spring:
     name: product-service
   data:
     mongodb:
-      uri: mongodb://user:password@localhost:27017/products?maxPoolSize=256
+      uri: mongodb://test:testpwd@106.15.230.133:27017/product?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false
 server:
   port: 8821
 logging:

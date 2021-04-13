@@ -17,7 +17,7 @@ class ProductServiceApplicationTests {
 
 //    @Test
     void addProduct() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1; i++) {
             List<String> category = new ArrayList<>(Collections.singletonList("古典吉他categoryId"));
             List<String> detailImages = new ArrayList<>(Arrays.asList("detail-image-uri1", "detail-image-uri2"));
             Map<String, String> details = new HashMap<>();
