@@ -1,6 +1,7 @@
 package com.lee.productservice.entity;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -15,6 +16,8 @@ import java.util.Map;
 public class Product {
     @Id
     private String id;
+    @Version
+    private long version;
     private Date createTime;
     private Date updateTime;
     private String creatorId;
@@ -66,6 +69,14 @@ public class Product {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
     }
 
     public Date getCreateTime() {

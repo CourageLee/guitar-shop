@@ -20,7 +20,7 @@ import java.util.Map;
  * @author Lee
  * @date 2021/3/29 14:03
  */
-@Component
+//@Component
 @Slf4j
 public class AuthFilter implements GlobalFilter, Ordered {
     @Resource

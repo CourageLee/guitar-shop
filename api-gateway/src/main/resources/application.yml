@@ -14,6 +14,19 @@ spring:
           uri: http://localhost:8811
           predicates:
             - Path=/user/**, /province/**, /address/**
+        - id: product_route
+          uri: http://localhost:8821
+          predicates:
+            - Path=/product/**
+          filters:
+            - StripPrefix=1
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:8082"
+            allowedMethods:
+              - GET
+              - POST
 server:
   port: 8080
 eureka:
