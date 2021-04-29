@@ -1,10 +1,15 @@
 package com.lee.fileservice.controller;
 
+import com.lee.fileservice.fastdfs.FastDFSClient;
 import lombok.extern.slf4j.Slf4j;
+import org.csource.common.MyException;
 import org.csource.fastdfs.StorageClient1;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 
 /**
  * @author Lee
@@ -12,20 +17,24 @@ import javax.annotation.Resource;
  * @date 2021/4/18 20:13
  */
 @Slf4j
+@RestController
 public class DeleteController {
-    @Resource
-    StorageClient1 storageClient1;
 
     @DeleteMapping("/file")
-
-
-    private int deleteFile(String fileId) {
+    public int delete (@RequestParam("fileId") String fileId) throws Exception {
         try {
-            int result = storageClient1.delete_file1(fileId);
-            return result;
-        } catch (Exception e) {
-            log.error(e.getMessage());
+            deleteFile(fileId);
+            log.info("Delete file " + fileId + " succeed");
             return 0;
+        } catch (IOException | MyException e) {
+            log.error("Delete file " + fileId + " failed");
+            e.printStackTrace();
+            throw new Exception("删除文件错误");
         }
+    }
+
+
+    private void deleteFile(String fileId) throws IOException, MyException {
+        FastDFSClient.deleteFile(fileId);
     }
 }

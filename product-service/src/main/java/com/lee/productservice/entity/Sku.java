@@ -12,8 +12,8 @@ import java.util.Map;
  * @author Lee
  * @date 2021/4/7 15:34
  */
-@Document(collection = "product")
-public class Product {
+@Document(collection = "sku")
+public class Sku {
     @Id
     private String id;
     @Version
@@ -22,10 +22,15 @@ public class Product {
     private Date updateTime;
     private String creatorId;
     private String name;
+    private String model;
     private String spu;
-    private String sku;
-    private String brand;
+    // 商品编号
+    private String slug;
+    private String weight;
+    private String origin;
+    private String color;
     private List<String> category;
+
     private Double retail;
     private Double sale;
     private boolean enabled;
@@ -33,22 +38,25 @@ public class Product {
     private int views;
     private String mainImage;
     private List<String> detailImages;
-    private String description;
     private float reviewRate;
     private int reviewCount;
     private Map<String, String> details;
 
-    public Product() {
+    public Sku() {
     }
 
-    public Product(Date createTime, Date updateTime, String creatorId, String name, String spu, String sku, String brand, List<String> category, Double retail, Double sale, boolean enabled, int inventory, int views, String mainImage, List<String> detailImages, String description, float reviewRate, int reviewCount, Map<String, String> details) {
+    public Sku(long version, Date createTime, Date updateTime, String creatorId, String name, String model, String spu, String slug, String weight, String origin, String color, List<String> category, Double retail, Double sale, boolean enabled, int inventory, int views, String mainImage, List<String> detailImages, float reviewRate, int reviewCount, Map<String, String> details) {
+        this.version = version;
         this.createTime = createTime;
         this.updateTime = updateTime;
         this.creatorId = creatorId;
         this.name = name;
+        this.model = model;
         this.spu = spu;
-        this.sku = sku;
-        this.brand = brand;
+        this.slug = slug;
+        this.weight = weight;
+        this.origin = origin;
+        this.color = color;
         this.category = category;
         this.retail = retail;
         this.sale = sale;
@@ -57,7 +65,6 @@ public class Product {
         this.views = views;
         this.mainImage = mainImage;
         this.detailImages = detailImages;
-        this.description = description;
         this.reviewRate = reviewRate;
         this.reviewCount = reviewCount;
         this.details = details;
@@ -111,6 +118,14 @@ public class Product {
         this.name = name;
     }
 
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
     public String getSpu() {
         return spu;
     }
@@ -119,20 +134,36 @@ public class Product {
         this.spu = spu;
     }
 
-    public String getSku() {
-        return sku;
+    public String getSlug() {
+        return slug;
     }
 
-    public void setSku(String sku) {
-        this.sku = sku;
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
-    public String getBrand() {
-        return brand;
+    public String getWeight() {
+        return weight;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public List<String> getCategory() {
@@ -199,14 +230,6 @@ public class Product {
         this.detailImages = detailImages;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public float getReviewRate() {
         return reviewRate;
     }
@@ -223,7 +246,6 @@ public class Product {
         this.reviewCount = reviewCount;
     }
 
-    // TODO 查阅<<Effective Java>>对应用类型的get处理
     public Map<String, String> getDetails() {
         return details;
     }
@@ -234,15 +256,19 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "Sku{" +
                 "id='" + id + '\'' +
+                ", version=" + version +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 ", creatorId='" + creatorId + '\'' +
                 ", name='" + name + '\'' +
+                ", model='" + model + '\'' +
                 ", spu='" + spu + '\'' +
-                ", sku='" + sku + '\'' +
-                ", brand='" + brand + '\'' +
+                ", slug='" + slug + '\'' +
+                ", weight='" + weight + '\'' +
+                ", origin='" + origin + '\'' +
+                ", color='" + color + '\'' +
                 ", category=" + category +
                 ", retail=" + retail +
                 ", sale=" + sale +
@@ -251,7 +277,6 @@ public class Product {
                 ", views=" + views +
                 ", mainImage='" + mainImage + '\'' +
                 ", detailImages=" + detailImages +
-                ", description='" + description + '\'' +
                 ", reviewRate=" + reviewRate +
                 ", reviewCount=" + reviewCount +
                 ", details=" + details +

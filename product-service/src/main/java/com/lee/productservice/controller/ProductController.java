@@ -1,7 +1,7 @@
 package com.lee.productservice.controller;
 
-import com.lee.productservice.entity.Product;
-import com.lee.productservice.service.ProductService;
+import com.lee.productservice.entity.Sku;
+import com.lee.productservice.service.SkuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 public class ProductController {
     @Resource
-    ProductService productService;
+    SkuService skuService;
 
     @GetMapping("/hello")
     public String hello() {
@@ -24,13 +24,13 @@ public class ProductController {
         return "Hello, product service is running";
     }
 
-    @GetMapping("/products")
-    public List<Product> listProducts(@RequestParam(value = "pageNumber", required = false) Long pageNumber, @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+    @GetMapping("/sku")
+    public List<Sku> listProducts(@RequestParam(value = "pageNumber", required = false) Long pageNumber, @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         log.debug("pageNumber: " + pageNumber + ", pageSize: " + pageSize);
         if(pageNumber != null && pageSize != null) {
-            return productService.listProductsPaginated(pageNumber, pageSize);
+            return skuService.listSkuPaginated(pageNumber, pageSize);
         } else {
-            return productService.listProducts();
+            return skuService.listSku();
         }
     }
 

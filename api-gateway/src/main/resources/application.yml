@@ -10,26 +10,34 @@ spring:
           uri: http://localhost:8801
           predicates:
             - Path=/oauth/token
+        - id: file_route
+          uri: lb://file-service
+          predicates:
+            - Path=/file/**
+          filters:
+            - StripPrefix=1
         - id: user_route
           uri: http://localhost:8811
           predicates:
             - Path=/user/**, /province/**, /address/**
         - id: product_route
-          uri: http://localhost:8821
+          uri: lb://product-service
           predicates:
             - Path=/product/**
           filters:
             - StripPrefix=1
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins: "http://localhost:8082"
-            allowedMethods:
-              - GET
-              - POST
+#      globalcors:
+#        cors-configurations:
+#          '[/**]':
+#            allow-credentials: true
+#            allowed-origins:
+#            - "http://localhost:8082"
+#            allowed-methods:
+#            - GET
+#            - POST
 server:
   port: 8080
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/, http://localhost:8762/eureka/
+      defaultZone: http://8.210.31.133:8761/eureka/, http://8.210.31.133:8762/eureka/

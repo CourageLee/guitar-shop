@@ -1,0 +1,26 @@
+[
+  {
+    "name": "民谣吉他",
+    "creatorId": "test",
+    "parentId": 0,
+    "enabled": true
+  },
+  {
+    "name": "古典吉他",
+    "creatorId": "test",
+    "parentId": 0,
+    "enabled": true
+  },
+  {
+    "name": "电吉他",
+    "creatorId": "test",
+    "parentId": 0,
+    "enabled": true
+  },
+  {
+    "name": "电箱吉他",
+    "creatorId": "test",
+    "parentId": 0,
+    "enabled": false
+  }
+]

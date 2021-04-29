@@ -1,24 +1,28 @@
 eureka:
   client:
     service-url:
-      defaultZone: http://106.15.230.133:8761/eureka, http://106.15.230.133:8762/eureka
+      defaultZone: http://172.17.15.173:8761/eureka, http://172.17.15.173:8762/eureka
+  server:
+    enable-self-preservation: false
 ---
 spring:
   profiles: peer1
   application:
     name: eureka-server1
-eureka:
-  instance:
-    prefer-ip-address: true
 server:
   port: 8761
+eureka:
+  instance:
+#    hostname: licongchun
+    prefer-ip-address: true
 ---
 spring:
   profiles: peer2
   application:
     name: eureka-server2
+server:
+  port: 8762
 eureka:
   instance:
     prefer-ip-address: true
-server:
-  port: 8762
+#    hostname: licongchun

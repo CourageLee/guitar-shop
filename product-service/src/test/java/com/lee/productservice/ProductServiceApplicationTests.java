@@ -1,19 +1,34 @@
 package com.lee.productservice;
 
-import com.lee.productservice.dal.ProductDAL;
-import com.lee.productservice.entity.Product;
+import com.lee.productservice.dal.CategoryDal;
+import com.lee.productservice.dal.SkuDal;
+import com.lee.productservice.entity.Sku;
+import com.lee.productservice.util.InitData;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.*;
 
 @SpringBootTest
 @Slf4j
 class ProductServiceApplicationTests {
     @Resource
-    ProductDAL productDAL;
+    SkuDal skuDAL;
+    @Resource
+    CategoryDal categoryDal;
+
+//    @Test
+    void initCategory() throws IOException {
+        InitData.initCategory();
+    }
+
+    @Test
+    void count() {
+        System.out.println(categoryDal.count());
+    }
 
 //    @Test
     void addProduct() {
@@ -24,27 +39,8 @@ class ProductServiceApplicationTests {
             details.put("箱体材质分类", "面单");
             details.put("品牌原产地", "英国");
             details.put("卷弦器", "其他");
-            Product product = new Product(
-                    new Date(),
-                    new Date(),
-                    "creator-01",
-                    "雅马哈（YAMAHA）正品FG830单板民谣木吉他电箱指弹唱专业表演奏琴850",
-                    "雅马哈(YAMAHA)FG830弦乐器",
-                    "FG830原木色民谣41寸",
-                    "雅马哈(YAMAHA)",
-                    category,
-                    4900.00,
-                    4900.00,
-                    true,
-                    10,
-                    5,
-                    "main-image-uri1",
-                    detailImages,
-                    "description1",
-                    4.5F,
-                    20,
-                    details);
-            productDAL.saveProduct(product);
+            Sku sku = new Sku();
+            skuDAL.saveSku(sku);
         }
     }
 }
