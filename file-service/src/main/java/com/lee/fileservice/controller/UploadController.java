@@ -2,6 +2,7 @@ package com.lee.fileservice.controller;
 
 import com.lee.fileservice.fastdfs.FastDFSClient;
 import com.lee.fileservice.fastdfs.FastDFSFile;
+import com.lee.fileservice.fastdfs.FileResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -21,19 +23,19 @@ public class UploadController {
     }
 
     @PostMapping("/file")
-    public String singleFileUpload(@RequestParam("file") MultipartFile file) throws Exception {
+    public FileResponse singleFileUpload(@RequestParam("file") MultipartFile file) throws Exception {
         if (file.isEmpty()) {
             throw new Exception("文件不能为空");
         }
-        String path = null;
+        FileResponse fileResponse;
         try {
             // Get the file and save it somewhere
-            path=saveFile(file);
+            fileResponse = saveFile(file);
         } catch (Exception e) {
             log.error("upload file failed",e);
             throw new Exception("上传文件错误");
         }
-        return path;
+        return fileResponse;
     }
 
     /**
@@ -41,7 +43,7 @@ public class UploadController {
      * @return
      * @throws IOException
      */
-    public String saveFile(MultipartFile multipartFile) throws IOException {
+    public FileResponse saveFile(MultipartFile multipartFile) throws IOException {
         String[] fileAbsolutePath={};
         String fileName=multipartFile.getOriginalFilename();
         String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
@@ -56,13 +58,16 @@ public class UploadController {
 
         FastDFSFile file = new FastDFSFile(fileName, file_buff, ext);
         try {
-            fileAbsolutePath = FastDFSClient.upload(file);  //upload to fastdfs
+            //upload to FastDFS
+            fileAbsolutePath = FastDFSClient.upload(file);
         } catch (Exception e) {
             log.error("upload file Exception!",e);
         }
         if (fileAbsolutePath==null) {
             log.error("upload file failed,please upload again!");
         }
-        return fileAbsolutePath[0]+ "/"+fileAbsolutePath[1];
+        String trackerUrl = FastDFSClient.getTrackerUrl();
+        String filePath = fileAbsolutePath[0]+ "/"+fileAbsolutePath[1];
+        return new FileResponse(trackerUrl, filePath);
     }
 }

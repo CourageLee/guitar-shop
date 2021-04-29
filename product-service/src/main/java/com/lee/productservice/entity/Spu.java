@@ -26,7 +26,7 @@ public class Spu {
     /**
      * spu详细描述信息，以图片形式保存，此处保存图片的url(不包含host)
      */
-    private List<String> description;
+    private List<FileResponse> description;
     /**
      * 是否可用，默认为false
      */
@@ -101,11 +101,11 @@ public class Spu {
         this.brand = brand;
     }
 
-    public List<String> getDescription() {
+    public List<FileResponse> getDescription() {
         return description;
     }
 
-    public void setDescription(List<String> description) {
+    public void setDescription(List<FileResponse> description) {
         this.description = description;
     }
 
