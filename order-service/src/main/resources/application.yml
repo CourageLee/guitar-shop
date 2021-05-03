@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: order-service
+  data:
+    mongodb:
+      uri: mongodb://test:testpwd@106.15.230.133:27017/order?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false
+server:
+  port: 8831
+eureka:
+  client:
+    service-url:
+      defaultZone: http://8.210.31.133:8761/eureka/, http://8.210.31.133:8762/eureka/
+  instance:
+    prefer-ip-address: true

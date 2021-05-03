@@ -43,13 +43,13 @@ public class SpuController {
     }
 
     @PostMapping("/spu")
-    public void saveSpu(@RequestBody Spu spu) throws Exception {
+    public void saveSpu(@RequestBody Spu spu) throws HttpException {
         spuService.saveSpu(spu);
     }
 
-    @PutMapping("spu/{id}")
+    @PutMapping("/spu/{id}")
     public void updateSpu(@PathVariable("id") String id, @RequestBody Spu spu) throws HttpException {
-        spuService.updateSpu(id,spu);
+        spuService.updateSpu(id, spu);
     }
 
     @DeleteMapping("/spu/{id}")

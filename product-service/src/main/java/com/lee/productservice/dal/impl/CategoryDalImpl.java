@@ -29,7 +29,7 @@ public class CategoryDalImpl implements CategoryDal {
     @Override
     public void saveCategory(Category category) {
         mongoTemplate.save(category);
-        log.info("category " + category.getName() + "is saved");
+        log.info("category [" + category.getName() + "] is saved");
     }
 
     @Override
@@ -60,6 +60,6 @@ public class CategoryDalImpl implements CategoryDal {
     public void deleteCategory(String id) {
         Query query = new Query(Criteria.where("_id").is(id));
         mongoTemplate.remove(query, Category.class);
-        log.info("category " + id + " is deleted");
+        log.info("category [" + id + "] is deleted");
     }
 }

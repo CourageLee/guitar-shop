@@ -36,7 +36,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
         services.setClientDetailsService(clientDetailsService);
         services.setSupportRefreshToken(true);
         services.setTokenStore(tokenStore);
-        services.setAccessTokenValiditySeconds(40);
+        services.setAccessTokenValiditySeconds(60 * 60 * 2);
         services.setRefreshTokenValiditySeconds(60 * 60 * 24 * 3);
         return services;
     }
@@ -50,7 +50,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                .withClient("api-server")
+                .withClient("api-service")
                 .secret(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("123"))
                 .authorizedGrantTypes("password","refresh_token")
                 .scopes("all");

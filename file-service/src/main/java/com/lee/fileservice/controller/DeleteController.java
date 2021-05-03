@@ -3,12 +3,10 @@ package com.lee.fileservice.controller;
 import com.lee.fileservice.fastdfs.FastDFSClient;
 import lombok.extern.slf4j.Slf4j;
 import org.csource.common.MyException;
-import org.csource.fastdfs.StorageClient1;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 
 /**
@@ -21,13 +19,13 @@ import java.io.IOException;
 public class DeleteController {
 
     @DeleteMapping("/file")
-    public int delete (@RequestParam("fileId") String fileId) throws Exception {
+    public int delete (@RequestParam("filePath") String filePath) throws Exception {
         try {
-            deleteFile(fileId);
-            log.info("Delete file " + fileId + " succeed");
+            deleteFile(filePath);
+            log.info("Delete file " + filePath + " succeed");
             return 0;
         } catch (IOException | MyException e) {
-            log.error("Delete file " + fileId + " failed");
+            log.error("Delete file " + filePath + " failed");
             e.printStackTrace();
             throw new Exception("删除文件错误");
         }

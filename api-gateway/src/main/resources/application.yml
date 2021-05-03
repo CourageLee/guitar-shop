@@ -7,9 +7,17 @@ spring:
     gateway:
       routes:
         - id: auth_route
-          uri: http://localhost:8801
+          uri: lb://auth-service
           predicates:
-            - Path=/oauth/token
+            - Path=/auth/oauth/token
+          filters:
+            - StripPrefix=1
+        - id: auth_route1
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth/oauth/check_token
+          filters:
+            - StripPrefix=1
         - id: file_route
           uri: lb://file-service
           predicates:
@@ -24,6 +32,12 @@ spring:
           uri: lb://product-service
           predicates:
             - Path=/product/**
+          filters:
+            - StripPrefix=1
+        - id: order_route
+          uri: lb://order-service
+          predicates:
+            - Path=/order/**
           filters:
             - StripPrefix=1
 #      globalcors:

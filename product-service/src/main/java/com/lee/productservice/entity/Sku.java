@@ -6,7 +6,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Lee
@@ -23,29 +22,53 @@ public class Sku {
     private String creatorId;
     private String name;
     private String model;
+    /**
+     * spuID
+     */
     private String spu;
-    // 商品编号
+    /**
+     * 商品编号，自动生成
+     * TODO 暂不使用
+     */
     private String slug;
     private String weight;
+    /**
+     * 原产地
+     */
     private String origin;
     private String color;
-    private List<String> category;
+    private List<String> categories;
 
+    /**
+     * 原价
+     */
     private Double retail;
+    /**
+     * 特价，当与原价一致时表示没有折扣
+     */
     private Double sale;
     private boolean enabled;
+    /**
+     * 库存
+     */
     private int inventory;
     private int views;
-    private String mainImage;
-    private List<String> detailImages;
+    private FileResponse mainImage;
+    private List<FileResponse> detailImages;
+    /**
+     * 评分，满分5份
+     */
     private float reviewRate;
+    /**
+     * 评价数
+     */
     private int reviewCount;
-    private Map<String, String> details;
+    private List<Detail> details;
 
     public Sku() {
     }
 
-    public Sku(long version, Date createTime, Date updateTime, String creatorId, String name, String model, String spu, String slug, String weight, String origin, String color, List<String> category, Double retail, Double sale, boolean enabled, int inventory, int views, String mainImage, List<String> detailImages, float reviewRate, int reviewCount, Map<String, String> details) {
+    public Sku(long version, Date createTime, Date updateTime, String creatorId, String name, String model, String spu, String slug, String weight, String origin, String color, List<String> categories, Double retail, Double sale, boolean enabled, int inventory, int views, FileResponse mainImage, List<FileResponse> detailImages, float reviewRate, int reviewCount, List<Detail> details) {
         this.version = version;
         this.createTime = createTime;
         this.updateTime = updateTime;
@@ -57,7 +80,7 @@ public class Sku {
         this.weight = weight;
         this.origin = origin;
         this.color = color;
-        this.category = category;
+        this.categories = categories;
         this.retail = retail;
         this.sale = sale;
         this.enabled = enabled;
@@ -166,12 +189,12 @@ public class Sku {
         this.color = color;
     }
 
-    public List<String> getCategory() {
-        return category;
+    public List<String> getCategories() {
+        return categories;
     }
 
-    public void setCategory(List<String> category) {
-        this.category = category;
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
     }
 
     public Double getRetail() {
@@ -214,19 +237,19 @@ public class Sku {
         this.views = views;
     }
 
-    public String getMainImage() {
+    public FileResponse getMainImage() {
         return mainImage;
     }
 
-    public void setMainImage(String mainImage) {
+    public void setMainImage(FileResponse mainImage) {
         this.mainImage = mainImage;
     }
 
-    public List<String> getDetailImages() {
+    public List<FileResponse> getDetailImages() {
         return detailImages;
     }
 
-    public void setDetailImages(List<String> detailImages) {
+    public void setDetailImages(List<FileResponse> detailImages) {
         this.detailImages = detailImages;
     }
 
@@ -246,11 +269,11 @@ public class Sku {
         this.reviewCount = reviewCount;
     }
 
-    public Map<String, String> getDetails() {
+    public List<Detail> getDetails() {
         return details;
     }
 
-    public void setDetails(Map<String, String> details) {
+    public void setDetails(List<Detail> details) {
         this.details = details;
     }
 
@@ -269,7 +292,7 @@ public class Sku {
                 ", weight='" + weight + '\'' +
                 ", origin='" + origin + '\'' +
                 ", color='" + color + '\'' +
-                ", category=" + category +
+                ", category=" + categories +
                 ", retail=" + retail +
                 ", sale=" + sale +
                 ", enabled=" + enabled +

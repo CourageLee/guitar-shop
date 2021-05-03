@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(HttpException.class)
     public ResponseEntity<String> handler(HttpException e) {
         return new ResponseEntity<>(e.getMessage(), e.getStatus());
     }

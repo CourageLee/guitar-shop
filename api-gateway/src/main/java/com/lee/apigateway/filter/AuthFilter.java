@@ -5,47 +5,59 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
+import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
  * @author Lee
  * @date 2021/3/29 14:03
  */
-//@Component
+@Component
 @Slf4j
 public class AuthFilter implements GlobalFilter, Ordered {
     @Resource
     AuthService authService;
 
-
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        final String loginPath = "/auth/oauth/token";
+
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
         String path = request.getPath().toString();
-        if ("/oauth/token".equals(path)) {
+
+        log.info("path: " + path);
+        if (loginPath.equals(path)) {
             // 登录操作跳过鉴定
+            log.info("登录操作，直接转发");
             return chain.filter(exchange);
         }
         // TODO 鉴定权限
 
-        String token = request.getQueryParams().getFirst("token");
-        // 未登录，跳转至登录页面
-        if (token == null) {
+        HttpHeaders headers = request.getHeaders();
+        List<String> tokens = headers.get("Authentication-Token");
+        // 没有token，跳转至登录页面
+        if (tokens == null || tokens.isEmpty()) {
+            log.info("没有token");
             String url = "http://baidu.com";
             response.setStatusCode(HttpStatus.SEE_OTHER);
             response.getHeaders().set(HttpHeaders.LOCATION, url);
             return response.setComplete();
         }
+
+        String token = tokens.get(0);
+        log.info("获取token: " + token);
 
 //         检测token，获取用户信息
         // TODO 使用OpenFeign鉴定token

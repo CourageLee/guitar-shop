@@ -12,25 +12,26 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 
 @RestController
 @Slf4j
 public class UploadController {
     @GetMapping("/test")
     public String test() {
-        return "Connect success";
+        return null;
     }
 
     @PostMapping("/file")
     public FileResponse singleFileUpload(@RequestParam("file") MultipartFile file) throws Exception {
+        log.info("name: " + file.getOriginalFilename());
         if (file.isEmpty()) {
             throw new Exception("文件不能为空");
         }
-        FileResponse fileResponse;
+        FileResponse fileResponse = null;
         try {
             // Get the file and save it somewhere
             fileResponse = saveFile(file);
+            System.out.println("");
         } catch (Exception e) {
             log.error("upload file failed",e);
             throw new Exception("上传文件错误");
@@ -68,6 +69,6 @@ public class UploadController {
         }
         String trackerUrl = FastDFSClient.getTrackerUrl();
         String filePath = fileAbsolutePath[0]+ "/"+fileAbsolutePath[1];
-        return new FileResponse(trackerUrl, filePath);
+        return new FileResponse(fileName, trackerUrl, filePath);
     }
 }

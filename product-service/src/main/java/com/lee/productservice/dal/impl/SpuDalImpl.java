@@ -30,7 +30,7 @@ public class SpuDalImpl implements SpuDal {
     @Override
     public void saveSpu(Spu spu) {
         mongoTemplate.save(spu);
-        log.info("spu " + spu.getName() + " is saved");
+        log.info("spu [" + spu.getName() + "] is saved");
     }
 
     @Override
@@ -62,6 +62,6 @@ public class SpuDalImpl implements SpuDal {
     public void deleteSpu(String id) {
         Query query = new Query(Criteria.where("_id").is(id));
         mongoTemplate.remove(query, Spu.class);
-        log.info("spu " + id + " is deleted");
+        log.info("spu [" + id + "] is deleted");
     }
 }

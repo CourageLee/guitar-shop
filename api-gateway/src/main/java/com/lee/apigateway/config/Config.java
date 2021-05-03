@@ -33,6 +33,9 @@ public class Config {
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedOrigin("http://localhost:8082");
+        corsConfiguration.addAllowedOrigin("http://localhost:8081");
+        corsConfiguration.addAllowedOrigin("http://shop.licongchun.com");
+        corsConfiguration.addAllowedOrigin("http://shop-backstage.licongchun.com");
         corsConfiguration.setAllowCredentials(true);
 
         source.registerCorsConfiguration("/**",corsConfiguration);

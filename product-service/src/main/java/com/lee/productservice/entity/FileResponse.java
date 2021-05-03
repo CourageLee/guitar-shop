@@ -6,12 +6,22 @@ package com.lee.productservice.entity;
  * @date 2021/4/29 12:06
  */
 public class FileResponse {
+    private String name;
     private String trackUrl;
     private String filePath;
 
-    public FileResponse(String trackUrl, String filePath) {
+    public FileResponse(String name, String trackUrl, String filePath) {
+        this.name = name;
         this.trackUrl = trackUrl;
         this.filePath = filePath;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getTrackUrl() {
@@ -33,7 +43,8 @@ public class FileResponse {
     @Override
     public String toString() {
         return "FileResponse{" +
-                "trackUrl='" + trackUrl + '\'' +
+                "name='" + name + '\'' +
+                ", trackUrl='" + trackUrl + '\'' +
                 ", filePath='" + filePath + '\'' +
                 '}';
     }
