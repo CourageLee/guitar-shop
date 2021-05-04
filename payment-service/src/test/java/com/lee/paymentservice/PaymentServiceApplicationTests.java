@@ -1,12 +1,10 @@
-package com.lee.orderservice;
+package com.lee.paymentservice;
 
-import com.lee.orderservice.util.SnowFlake;
-import org.bson.types.Binary;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class OrderServiceApplicationTests {
+class PaymentServiceApplicationTests {
 
     @Test
     void contextLoads() {

@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: payment-service
+server:
+  port: 8841
+eureka:
+  client:
+    service-url:
+      defaultZone: http://8.210.31.133:8761/eureka/, http://8.210.31.133:8762/eureka/
+  instance:
+    prefer-ip-address: true

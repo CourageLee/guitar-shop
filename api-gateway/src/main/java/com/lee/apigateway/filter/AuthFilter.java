@@ -32,6 +32,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         final String loginPath = "/auth/oauth/token";
+        final String notifyPath = "/payment/notify";
 
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
@@ -41,6 +42,11 @@ public class AuthFilter implements GlobalFilter, Ordered {
         if (loginPath.equals(path)) {
             // 登录操作跳过鉴定
             log.info("登录操作，直接转发");
+            return chain.filter(exchange);
+        }
+        if (notifyPath.equals(path)) {
+            // 支付宝通知路径
+            log.info("支付宝通知操作，直接转发");
             return chain.filter(exchange);
         }
         // TODO 鉴定权限

@@ -1,6 +1,7 @@
 package com.lee.orderservice.dal;
 
 import com.lee.orderservice.entity.Order;
+import com.lee.orderservice.entity.OrderStatus;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * @date 2021/5/3 17:56
  */
 public interface OrderDal {
-    void saveOrder(Order order);
+    Order saveOrder(Order order);
 
     long count(String username);
 
@@ -25,4 +26,6 @@ public interface OrderDal {
      * @param id
      */
     void deleteOrder(String id);
+
+    void updateOrderStatus(String id, OrderStatus status);
 }

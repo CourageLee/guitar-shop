@@ -22,6 +22,10 @@ public class Order {
     private Date updateTime;
     private String creatorId;
     /**
+     * 订单名称
+     */
+    private String orderName;
+    /**
      * 用户名
      */
     private String username;
@@ -82,6 +86,14 @@ public class Order {
         this.creatorId = creatorId;
     }
 
+    public String getOrderName() {
+        return orderName;
+    }
+
+    public void setOrderName(String orderName) {
+        this.orderName = orderName;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -122,6 +134,7 @@ public class Order {
         this.orderSale = orderSale;
     }
 
+
     @Override
     public String toString() {
         return "Order{" +
@@ -130,6 +143,7 @@ public class Order {
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 ", creatorId='" + creatorId + '\'' +
+                ", orderName='" + orderName + '\'' +
                 ", username='" + username + '\'' +
                 ", skus=" + skus +
                 ", status=" + status +

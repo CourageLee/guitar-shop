@@ -12,7 +12,7 @@ import java.util.List;
  * @date 2021/5/3 18:09
  */
 public interface OrderService {
-    void saveOrder(Order order) throws HttpException;
+    Order saveOrder(Order order) throws HttpException;
 
     long count(String username);
 

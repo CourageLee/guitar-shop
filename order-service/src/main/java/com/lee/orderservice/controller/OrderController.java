@@ -18,7 +18,6 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@CrossOrigin
 public class OrderController {
     @Resource
     OrderService orderService;
@@ -49,9 +48,9 @@ public class OrderController {
     }
 
     @PostMapping("/order")
-    public void saveOrder(@RequestBody Order order) throws HttpException {
+    public Order saveOrder(@RequestBody Order order) throws HttpException {
         log.info(order.toString());
-        orderService.saveOrder(order);
+        return orderService.saveOrder(order);
     }
 
     @DeleteMapping("/order/{id}")
@@ -60,8 +59,8 @@ public class OrderController {
     }
 
     @PatchMapping("/order/{id}")
-    public void updateOrderStatus(@PathVariable("id") String id, @RequestParam("status")OrderStatus status) throws HttpException {
+    public void updateOrderStatus(@PathVariable("id") String id, @RequestParam("status")OrderStatus status) {
         log.info("id: " + id + "; status: " + status);
-        throw new HttpException("该方法暂未实现", HttpStatus.INTERNAL_SERVER_ERROR);
+        orderService.updateOrderStatus(id, status);
     }
 }

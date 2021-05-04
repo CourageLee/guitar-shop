@@ -6,6 +6,7 @@ import com.lee.orderservice.entity.OrderStatus;
 import com.lee.orderservice.entity.Sku;
 import com.lee.orderservice.exception.HttpException;
 import com.lee.orderservice.service.OrderService;
+import com.lee.orderservice.util.SnowFlake;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +25,10 @@ public class OrderServiceImpl implements OrderService {
     OrderDal orderDal;
 
     @Override
-    public void saveOrder(Order order) throws HttpException {
+    public Order saveOrder(Order order) throws HttpException {
         checkOrder(order);
         // TODO 锁定并减少sku库存
-        orderDal.saveOrder(order);
+        return orderDal.saveOrder(order);
     }
 
     @Override
@@ -57,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrderStatus(String id, OrderStatus status) {
-        // TODO 待完成
+        orderDal.updateOrderStatus(id, status);
     }
 
     /**
@@ -65,6 +66,9 @@ public class OrderServiceImpl implements OrderService {
      * @param order
      */
     private void checkOrder(Order order) throws HttpException {
+        // 设置id
+        order.setId(String.valueOf(SnowFlake.nextId()));
+
         if (order.getCreateTime() == null) {
             order.setCreateTime(new Date());
         }
@@ -80,8 +84,8 @@ public class OrderServiceImpl implements OrderService {
             orderRetail += sku.getCartSum();
         }
         order.setOrderRetail(orderRetail);
-        // 将订单实际总金额设置为0.1元,演示用
-        order.setOrderSale(0.1D);
+        // 将订单实际总金额设置为0.01元,演示用
+        order.setOrderSale(0.01D);
 
         if (order.getStatus() == null) {
             order.setStatus(OrderStatus.NON_PAYMENT);
@@ -93,5 +97,11 @@ public class OrderServiceImpl implements OrderService {
         if (order.getSkus() == null || order.getSkus().isEmpty()) {
             throw new HttpException("order skus不能为空", HttpStatus.BAD_REQUEST);
         }
+        // 设置订单名称
+        String orderName = order.getSkus().get(0).getSkuName();
+        if (order.getSkus().size() > 1) {
+            orderName = orderName + " 等";
+        }
+        order.setOrderName(orderName);
     }
 }
