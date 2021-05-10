@@ -22,4 +22,19 @@ public interface RoleMapper {
     @Result(column = "ID", property = "id")
     @Result(column = "ID", property = "authorities", many = @Many(select = "com.lee.authservice.mapper.AuthorityMapper.listAuthoritiesByRoleId"))
     List<Role> listRolesByUserId(Long userId);
+
+    /**
+     * 查询所有角色信息
+     * @return
+     */
+    @Select("SELECT *FROM roles")
+    List<Role> listRoles();
+
+    /**
+     * 根据角色code查询角色信息
+     * @param roleCode
+     * @return
+     */
+    @Select("SELECT *FROM roles WHERE role_code = #{roleCode}")
+    Role getRoleByRoleCode(String roleCode);
 }

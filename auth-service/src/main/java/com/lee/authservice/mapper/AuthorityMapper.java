@@ -16,5 +16,5 @@ public interface AuthorityMapper {
      * @return 权限信息
      */
     @Select("SELECT b.* FROM ROLE_AUTH a JOIN AUTHORITIES b ON a.ROLE_ID = #{roleId} AND a.AUTHORITY_ID = b.ID")
-    List<Authority> listAuthoritiesByRoleId(Long roleId);
+    List<Authority> listAuthoritiesByRoleId(String roleId);
 }

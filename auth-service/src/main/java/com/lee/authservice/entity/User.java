@@ -13,7 +13,7 @@ import java.util.List;
  * @date 2021/3/22 15:58
  */
 public class User implements UserDetails {
-    private Long id;
+    private String id;
     private String username;
     private String password;
     private boolean accountNonExpired;
@@ -26,7 +26,9 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> list = new ArrayList<>();
         for (Role role : roles) {
-            list.add(new SimpleGrantedAuthority(role.getRoleCode()));
+            for (Authority authority : role.getAuthorities()) {
+                list.add(new SimpleGrantedAuthority(authority.getAuthorityCode()));
+            }
         }
         return list;
     }
@@ -61,11 +63,11 @@ public class User implements UserDetails {
         return enabled;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

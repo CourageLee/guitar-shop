@@ -1,4 +1,4 @@
-package com.lee.apigateway.service;
+package com.lee.apigateway.service.feign;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,5 +17,6 @@ public interface AuthService {
     // TODO
     @PostMapping("/oauth/check_token")
     Map<String, ?> getUserByToken(@RequestParam("token") String token);
+
 
 }

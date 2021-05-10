@@ -1,27 +1,30 @@
 package com.lee.apigateway.filter;
 
-import com.lee.apigateway.service.AuthService;
+import com.lee.apigateway.exception.HttpException;
+import com.lee.apigateway.service.feign.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
-import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.server.RequestPath;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 /**
  * @author Lee
- * @date 2021/3/29 14:03
+ * @version 1.0
+ * @date 2021/5/5 14:24
  */
 @Component
 @Slf4j
@@ -29,77 +32,82 @@ public class AuthFilter implements GlobalFilter, Ordered {
     @Resource
     AuthService authService;
 
+    // TODO 删除test
+    private static String[] excludeTest = {"/auth/auth|GET", "/auth/auth/*|GET", "/auth/auth-count|GET", "/auth/user|POST"};
+    private static String[] excludeUrlAuth= {"/auth|GET", "/auth/oauth/token|POST", "/auth/oauth/check_token|POST"};
+    private static String[] excludeUrlFile = {"/file|GET"};
+    private static String[] excludeUrlUser = {"/user|GET"};
+    private static String[] excludeUrlProduct = {
+            "/product|GET",
+            "/product/category|GET", "/product/category/*|GET", "/product/category-count",
+            "/product/spu|GET", "/product/spu/*|GET", "/product/spu-count|GET",
+            "/product/sku|GET", "/product/sku/*|GET", "/product/sku-by-spu|GET", "/product/sku-count|GET"
+    };
+    private static String[] excludeUrlOrder = {
+            "/order|GET"
+    };
+    private static String[] excludeUrlPayment = {"/payment|GET"};
+
+    private static List<String> excludeUrl = new ArrayList<>();
+
+    public AuthFilter() {
+        excludeUrl.addAll(Arrays.asList(excludeTest));
+        excludeUrl.addAll(Arrays.asList(excludeUrlAuth));
+        excludeUrl.addAll(Arrays.asList(excludeUrlFile));
+        excludeUrl.addAll(Arrays.asList(excludeUrlUser));
+        excludeUrl.addAll(Arrays.asList(excludeUrlProduct));
+        excludeUrl.addAll(Arrays.asList(excludeUrlOrder));
+        excludeUrl.addAll(Arrays.asList(excludeUrlPayment));
+    }
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        final String loginPath = "/auth/oauth/token";
-        final String notifyPath = "/payment/notify";
-
+        log.info("test filter 0");
+        /**
+         * 获取用户信息
+         * 判断是否需要登录，是否有权限
+         */
         ServerHttpRequest request = exchange.getRequest();
-        ServerHttpResponse response = exchange.getResponse();
-        String path = request.getPath().toString();
 
-        log.info("path: " + path);
-        if (loginPath.equals(path)) {
-            // 登录操作跳过鉴定
-            log.info("登录操作，直接转发");
-            return chain.filter(exchange);
-        }
-        if (notifyPath.equals(path)) {
-            // 支付宝通知路径
-            log.info("支付宝通知操作，直接转发");
-            return chain.filter(exchange);
-        }
-        // TODO 鉴定权限
-
+        // 获取用户信息
         HttpHeaders headers = request.getHeaders();
         List<String> tokens = headers.get("Authentication-Token");
-        // 没有token，跳转至登录页面
-        if (tokens == null || tokens.isEmpty()) {
-            log.info("没有token");
-            String url = "http://baidu.com";
-            response.setStatusCode(HttpStatus.SEE_OTHER);
-            response.getHeaders().set(HttpHeaders.LOCATION, url);
-            return response.setComplete();
-        }
-
-        String token = tokens.get(0);
-        log.info("获取token: " + token);
-
-//         检测token，获取用户信息
-        // TODO 使用OpenFeign鉴定token
         Map<String, ?> user = null;
-        try {
-            user = authService.getUserByToken(token);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (tokens != null) {
+            String token = tokens.get(0);
+
+            try {
+                user = authService.getUserByToken(token);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        if (user == null) {
-            log.info("验证token, token无效");
-            String url = "http://baidu.com";
-            response.setStatusCode(HttpStatus.SEE_OTHER);
-            response.getHeaders().set(HttpHeaders.LOCATION, url);
+
+        RequestPath path = request.getPath();
+        HttpMethod method = request.getMethod();
+        String url = path.value() + "|" + method.name();
+        log.info("url: " + url);
+        // 排除无需登录的路径
+        if (excludeUrl.contains(url)) {
+            return chain.filter(exchange);
+        }
+
+        // 鉴权
+        // TODO 异常的处理
+        try {
+            Authentication.verify(path.value(), method.name(), user);
+        } catch (HttpException e) {
+            e.printStackTrace();
+            ServerHttpResponse response = exchange.getResponse();
+            response.setStatusCode(e.getStatus());
             return response.setComplete();
         }
-        log.info("验证token, token有效");
-        for (Map.Entry<String, ?> entry : user.entrySet()) {
-            log.info(entry.getKey() + ": " + entry.getValue().toString());
-        }
 
-        // 鉴定成功，放行让Spring Security鉴定权限
-        // TODO 配置Spring Security
-
-
-//        if (path.equals("/user/admin")) {
-//            log.info("forbid");
-//            response.setStatusCode(HttpStatus.UNAUTHORIZED);
-//            return response.setComplete();
-//        }
-//        log.info("after");
         return chain.filter(exchange);
     }
 
     @Override
     public int getOrder() {
-        return -100;
+        return 0;
     }
 }

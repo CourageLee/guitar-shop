@@ -1,10 +1,7 @@
 package com.lee.authservice.mapper;
 
 import com.lee.authservice.entity.User;
-import org.apache.ibatis.annotations.Many;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 /**
  * @author Lee
@@ -20,4 +17,17 @@ public interface UserMapper {
     @Result(column = "ID", property = "id")
     @Result(column = "ID", property = "roles", many = @Many(select = "com.lee.authservice.mapper.RoleMapper.listRolesByUserId"))
     User getUserByUsername(String username);
+
+    /**
+     * 新增用户登录信息,返回新增的ID
+     * @param user
+     */
+    @Insert("INSERT INTO users (username, password) VALUES (#{username}, #{password})")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    void addUser(User user);
+
+
+    @Delete("DELETE FROM users WHERE id = #{userId}")
+    void deleteUser(String userId);
+
 }

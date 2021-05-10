@@ -7,7 +7,7 @@ import java.util.Date;
  * @date 2021/3/24 14:00
  */
 public class Authority {
-    private Long id;
+    private String id;
     private String authorityCode;
     private String name;
     private Date createTime;
@@ -24,11 +24,11 @@ public class Authority {
                 '}';
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

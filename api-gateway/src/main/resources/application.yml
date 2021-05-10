@@ -25,9 +25,11 @@ spring:
           filters:
             - StripPrefix=1
         - id: user_route
-          uri: http://localhost:8811
+          uri: lb://user-service
           predicates:
-            - Path=/user/**, /province/**, /address/**
+            - Path=/user/**
+          filters:
+            - StripPrefix=1
         - id: product_route
           uri: lb://product-service
           predicates:

@@ -9,7 +9,7 @@ import java.util.List;
  * @date 2021/3/24 11:11
  */
 public class Role  {
-    private Long id;
+    private String id;
     private String roleCode;
     private String name;
     private Date createTime;
@@ -28,11 +28,11 @@ public class Role  {
                 '}';
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
