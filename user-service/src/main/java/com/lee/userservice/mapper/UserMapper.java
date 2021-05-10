@@ -20,7 +20,7 @@ public interface UserMapper {
      * 查询所有用户信息
      * @return 所有用户信息
      */
-    @Select("SELECT *FROM users")
+    @Select("SELECT *FROM USERS")
     List<User> listUser();
 
     /**
@@ -28,7 +28,7 @@ public interface UserMapper {
      * @param userId 用户ID
      * @return 用户信息
      */
-    @Select("SELECT *FROM users WHERE id = #{userId}")
+    @Select("SELECT *FROM USERS WHERE id = #{userId}")
     User getUserByUserId(Long userId);
 
     /**
@@ -36,34 +36,34 @@ public interface UserMapper {
      * @param username 用户名
      * @return 用户信息
      */
-    @Select("SELECT *FROM users WHERE username = #{username}")
+    @Select("SELECT *FROM USERS WHERE username = #{username}")
     User getUserByUsername(String username);
 
     /**
      * 插入用户信息
      * @param user 用户信息
      */
-    @Insert("INSERT INTO users (username, sex, birth, photo, phone, email) VALUES (#{username}, #{sex}, #{birth}, #{photo}, #{phone}, #{email})")
+    @Insert("INSERT INTO USERS (username, sex, birth, photo, phone, email) VALUES (#{username}, #{sex}, #{birth}, #{photo}, #{phone}, #{email})")
     void saveUser(User user);
 
     /**
      * 修改用户信息
      * @param user 用户信息
      */
-    @Update("UPDATE users SET username = #{username}, sex = #{sex}, birth = #{birth}, photo = #{photo}, phone = #{phone}, email = #{email} WHERE id = #{id}")
+    @Update("UPDATE USERS SET username = #{username}, sex = #{sex}, birth = #{birth}, photo = #{photo}, phone = #{phone}, email = #{email} WHERE id = #{id}")
     void updateUser(User user);
 
     /**
      * 根据用户ID删除用户信息
      * @param userId 用户ID
      */
-    @Delete("DELETE FROM users WHERE id = #{id}")
+    @Delete("DELETE FROM USERS WHERE id = #{id}")
     void deleteUserByUserId(String userId);
 
     /**
      * 根据用户名删除用户
      * @param username 用户名称
      */
-    @Delete("DELETE FROM users WHERE username = #{username}")
+    @Delete("DELETE FROM USERS WHERE username = #{username}")
     void deleteUserByUsername(String username);
 }

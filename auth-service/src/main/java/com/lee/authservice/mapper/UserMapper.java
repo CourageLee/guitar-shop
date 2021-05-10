@@ -22,12 +22,12 @@ public interface UserMapper {
      * 新增用户登录信息,返回新增的ID
      * @param user
      */
-    @Insert("INSERT INTO users (username, password) VALUES (#{username}, #{password})")
+    @Insert("INSERT INTO USERS (username, password) VALUES (#{username}, #{password})")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     void addUser(User user);
 
 
-    @Delete("DELETE FROM users WHERE id = #{userId}")
+    @Delete("DELETE FROM USERS WHERE id = #{userId}")
     void deleteUser(String userId);
 
 }

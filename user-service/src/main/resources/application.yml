@@ -1,13 +1,13 @@
 spring:
   datasource:
-    username: root
     url: jdbc:mysql://106.15.230.133:3306/user_service?useUniqueCode=true&characterEncoding=utf-8
+    username: root
     password: LImy0501#+
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       max-lifetime: 30000
   application:
-    name: usre-service
+    name: user-service
 mybatis:
   configuration:
     map-underscore-to-camel-case: true

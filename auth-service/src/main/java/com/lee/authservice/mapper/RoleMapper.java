@@ -27,7 +27,7 @@ public interface RoleMapper {
      * 查询所有角色信息
      * @return
      */
-    @Select("SELECT *FROM roles")
+    @Select("SELECT *FROM ROLES")
     List<Role> listRoles();
 
     /**
@@ -35,6 +35,6 @@ public interface RoleMapper {
      * @param roleCode
      * @return
      */
-    @Select("SELECT *FROM roles WHERE role_code = #{roleCode}")
+    @Select("SELECT *FROM ROLES WHERE role_code = #{roleCode}")
     Role getRoleByRoleCode(String roleCode);
 }

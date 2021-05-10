@@ -16,10 +16,10 @@ public interface UserRoleMapper {
      * @param userId
      * @param roleId
      */
-    @Insert("INSERT INTO user_role VALUES (#{userId}, #{roleId})")
+    @Insert("INSERT INTO USER_ROLE VALUES (#{userId}, #{roleId})")
     void addUserRole(String userId, String roleId);
 
-    @Delete("DELETE FROM user_role WHERE user_id = #{userId}")
+    @Delete("DELETE FROM USER_ROLE WHERE user_id = #{userId}")
     void deleteUserRole(String userId);
 
 
