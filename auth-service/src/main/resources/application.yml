@@ -19,3 +19,14 @@ eureka:
       defaultZone: http://8.210.31.133:8761/eureka/, http://8.210.31.133:8762/eureka/
   instance:
     prefer-ip-address: true
+#feign:
+#  hystrix:
+#    enabled: true
+#  client:
+#    config:
+#      default:
+#        connect-timeout=20000
+#        read-timeout=20000
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 10000

@@ -61,4 +61,23 @@ public class CartController {
     public void updateCart(@PathVariable("id") String id, @RequestBody Cart newCart) throws HttpException {
         cartService.updateCart(id, newCart);
     }
+
+    /**
+     * 添加商品的数量
+     * @param id
+     */
+    @PutMapping("/sku-number/{id}")
+    public void addSkuNumber(@PathVariable("id") String id) throws HttpException {
+        throw new HttpException("为实现", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * 减少某商品数量
+     * @param id
+     * @throws HttpException
+     */
+    @DeleteMapping("/sku-number/{id}")
+    public void deleteSkuNumber(@PathVariable("id") String id) throws HttpException {
+        throw new HttpException("为实现", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

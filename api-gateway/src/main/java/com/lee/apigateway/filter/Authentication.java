@@ -21,9 +21,8 @@ public class Authentication {
             throw new HttpException("user为空", HttpStatus.UNAUTHORIZED);
         }
         List<String> authorities = (List<String>) user.get("authorities");
-        String url = path + "|" + method;
 
-        log.info("url: " + url);
+        log.info("path: " + path + "  method: " + method);
         log.info("user " + user.get("user_name") + " authorities: " + authorities.toString());
 
         AntPathMatcher matcher = new AntPathMatcher();

@@ -33,8 +33,8 @@ public class AuthFilter implements GlobalFilter, Ordered {
     AuthService authService;
 
     // TODO 删除test
-    private static String[] excludeTest = {"/auth/auth|GET", "/auth/auth/*|GET", "/auth/auth-count|GET", "/auth/user|POST"};
-    private static String[] excludeUrlAuth= {"/auth|GET", "/auth/oauth/token|POST", "/auth/oauth/check_token|POST"};
+    private static String[] excludeTest = {"/auth/auth|GET", "/auth/auth/*|GET", "/auth/auth-count|GET"};
+    private static String[] excludeUrlAuth= {"/auth|GET", "/auth/user|POST", "/auth/oauth/token|POST", "/auth/oauth/check_token|POST"};
     private static String[] excludeUrlFile = {"/file|GET"};
     private static String[] excludeUrlUser = {"/user|GET"};
     private static String[] excludeUrlProduct = {
@@ -62,7 +62,6 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        log.info("test filter 0");
         /**
          * 获取用户信息
          * 判断是否需要登录，是否有权限

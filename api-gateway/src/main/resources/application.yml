@@ -9,13 +9,7 @@ spring:
         - id: auth_route
           uri: lb://auth-service
           predicates:
-            - Path=/auth/oauth/token
-          filters:
-            - StripPrefix=1
-        - id: auth_route1
-          uri: lb://auth-service
-          predicates:
-            - Path=/auth/oauth/check_token
+            - Path=/auth/**
           filters:
             - StripPrefix=1
         - id: file_route
